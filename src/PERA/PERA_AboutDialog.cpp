@@ -16,7 +16,7 @@
 // along with DeleteOldFiles.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "PERA_AboutDialog.hpp"
-#include "Icons.hpp"
+#include "../Icons.hpp"
 #include <QPixmap>
 #include <QLabel>
 #include <QHBoxLayout>

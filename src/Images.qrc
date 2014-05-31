@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Images/dialog-information-16x16.png</file>
+        <file>Images/dialog-warning-16x16.png</file>
+        <file>Images/dialog-error-16x16.png</file>
+        <file>Images/Debug.png</file>
+        <file>Images/PERA-Icon.png</file>
+        <file>Images/script-error-16x16.png</file>
+        <file>Images/clock-16x16.png</file>
+        <file>Images/trash-empty-16x16.png</file>
+        <file>Images/dialog-ok-apply-16x16.png</file>
+        <file>Images/dialog-cancel-16x16.png</file>
+        <file>Images/edit-delete-16x16.png</file>
+        <file>Images/system-shutdown-16x16.png</file>
+        <file>Images/PERA-Logo.png</file>
+        <file>Images/user-trash-16x16.png</file>
+        <file>Images/PERA-Icon.ico</file>
+    </qresource>
+</RCC>

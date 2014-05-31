@@ -17,7 +17,7 @@
 
 #include "PERA_MainWindow.hpp"
 #include "PERA_AboutDialog.hpp"
-#include "Icons.hpp"
+#include "../Icons.hpp"
 #include <QApplication>
 #include <QSettings>
 
