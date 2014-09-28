@@ -81,7 +81,7 @@ static void createHelpMenu( MainWindow *mainWindow )
 
 
 MainWindow::MainWindow(QWidget *parent)
-	: PERA::MainWindow(parent)
+	: pera_software::aidkit::qt::MainWindow(parent)
 {
 	createFileMenu( this );
 	createHelpMenu( this );

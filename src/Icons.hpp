@@ -24,9 +24,6 @@ class QString;
 
 class Icons {
 	public:
-		static const QString PERAIcon;
-		static const QString PERALogo;
-
 		static const QString Quit;
 
 		static const QString Information;

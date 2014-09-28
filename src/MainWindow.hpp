@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "PERA/PERA_MainWindow.hpp"
+#include <pera_software/aidkit/qt/MainWindow.hpp>
 
 class MessagesWidget;
 class MessagesTreeWidget;
@@ -26,7 +26,7 @@ class QTreeWidget;
 class QFileInfo;
 class QSplitter;
 
-class MainWindow : public PERA::MainWindow {
+class MainWindow : public pera_software::aidkit::qt::MainWindow {
 	Q_OBJECT
 	public:
 		MainWindow(QWidget *parent = 0);

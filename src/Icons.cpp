@@ -19,9 +19,6 @@
 #include <QIcon>
 #include <QFile>
 
-const QString Icons::PERAIcon( ":/Images/PERA-Icon.png" );
-const QString Icons::PERALogo( ":/Images/PERA-Logo.png" );
-
 const QString Icons::Quit( ":/Images/system-shutdown-16x16.png" );
 
 const QString Icons::Information( ":/Images/dialog-information-16x16.png" );

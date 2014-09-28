@@ -21,7 +21,7 @@
 
 
 Application::Application( int &argc, char *argv[] )
-	: PERA::Application( argc, argv )
+	: pera_software::aidkit::qt::Application( argc, argv )
 {
 	mainWindow_ = new MainWindow();
 	mainWindow_->show();
