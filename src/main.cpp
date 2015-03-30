@@ -18,9 +18,11 @@
 #include "Application.hpp"
 #include <QTimer>
 
+using namespace pera_software::company::qt;
+
 int main( int argc, char *argv[] )
 {
-	Application application( argc, argv );
+	::Application application( argc, argv );
 
 	QTimer::singleShot( 0, &application, SLOT(removeOldFiles()));
 

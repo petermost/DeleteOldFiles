@@ -17,11 +17,11 @@
 
 #pragma once
 
-#include <pera_software/aidkit/qt/Application.hpp>
+#include <pera_software/company/qt/Application.hpp>
 
 class MainWindow;
 
-class Application : public pera_software::aidkit::qt::Application {
+class Application : public pera_software::company::qt::Application {
 	Q_OBJECT
 	public:
 		Application( int &argc, char *argv[] );
