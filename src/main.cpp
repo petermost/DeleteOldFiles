@@ -24,7 +24,7 @@ int main( int argc, char *argv[] )
 {
 	::Application application( argc, argv );
 
-	QTimer::singleShot( 0, &application, SLOT(removeOldFiles()));
+	QTimer::singleShot( 0, &application, &::Application::removeOldFiles );
 
 	return application.exec();
 }
