@@ -17,13 +17,13 @@
 
 #pragma once
 
-#include "DirectoryGuide.hpp"
 #include "FileRemover.hpp"
+#include <pera_software/aidkit/qt/core/DirectoryGuide.hpp>
 #include <functional>
 
 class QFileInfo;
 
-class DirectoryTreeRemover : public DirectoryVisitor {
+class DirectoryTreeRemover : public pera_software::aidkit::qt::DirectoryVisitor {
 	Q_OBJECT
 	public:
 		DirectoryTreeRemover( const std::function< bool ( const QFileInfo & )> &removeCondition, QObject *parent = nullptr );

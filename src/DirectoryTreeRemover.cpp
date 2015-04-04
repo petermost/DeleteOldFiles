@@ -20,7 +20,7 @@
 #include <QFileInfo>
 
 using namespace std;
-
+using namespace pera_software::aidkit::qt;
 
 
 DirectoryTreeRemover::DirectoryTreeRemover( const function< bool ( const QFileInfo & )> &removeCondition, QObject *parent )

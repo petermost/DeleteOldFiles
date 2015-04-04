@@ -10,7 +10,6 @@ link_directories( ./CppAidKit )
 set( SOURCES
 	src/main.cpp
 	src/Application.cpp
-	src/DirectoryGuide.cpp
 	src/DirectoryTreeRemover.cpp
 	src/DirectoryTreeRemoverThread.cpp
 	src/FileRemover.cpp
@@ -22,7 +21,6 @@ set( SOURCES
 
 set( HEADERS
 	src/Application.hpp
-	src/DirectoryGuide.hpp
 	src/DirectoryTreeRemover.hpp
 	src/DirectoryTreeRemoverThread.hpp
 	src/FileRemover.hpp

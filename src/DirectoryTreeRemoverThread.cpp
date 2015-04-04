@@ -16,9 +16,10 @@
 // along with DeleteOldFiles.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "DirectoryTreeRemoverThread.hpp"
-#include "DirectoryGuide.hpp"
 #include "DirectoryTreeRemover.hpp"
 #include <QFileInfo>
+
+using namespace pera_software::aidkit::qt;
 
 DirectoryTreeRemoverThread::DirectoryTreeRemoverThread( DirectoryTreeRemover *remover, const QString &startDirectory)
 {
