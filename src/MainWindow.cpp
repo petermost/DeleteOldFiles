@@ -32,6 +32,9 @@
 #include <QStatusBar>
 #include <QMessageBox>
 #include <QApplication>
+#include <pera_software/aidkit/qt/widgets/QuitAction.hpp>
+
+using namespace pera_software::aidkit::qt;
 
 const QString SPLITTER_KEY( "splitter" );
 
@@ -48,8 +51,7 @@ static bool isNotFromToday( const QFileInfo &fileInfo )
 
 static void createFileMenu( MainWindow *mainWindow )
 {
-	auto quitAction = new QAction( Icons[ Icons::Quit ], "&Quit", mainWindow );
-	quitAction->setShortcut( QKeySequence::Quit );
+	auto quitAction = new QuitAction( mainWindow );
 	QObject::connect( quitAction, &QAction::triggered, mainWindow, &QMainWindow::close );
 
 	auto fileMenu = new QMenu( "&File", mainWindow );
