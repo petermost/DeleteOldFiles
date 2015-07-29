@@ -1,4 +1,4 @@
 DeleteOldFiles
 ==============
 
-A program which deletes old files from a directory
+A Qt program which deletes old files from a directory
