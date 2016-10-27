@@ -1,11 +1,8 @@
 cmake_minimum_required( VERSION 3.0 )
 project( DeleteOldFiles )
 
-add_compile_options( -std=c++14 -w -Wall -Wextra -pedantic )
-
-add_subdirectory( ../CppAidKit ./CppAidKit )
-include_directories( ../CppAidKit/src/ )
-link_directories( ./CppAidKit )
+include( ../CppAidKit/cmake/all_options.cmake )
+include( ../CppAidKit/cmake/aidkit_options.cmake )
 
 set( SOURCES
 	src/main.cpp
@@ -38,13 +35,12 @@ qt5_add_resources( RESOURCES
 	src/Images.qrc
 )
 
-
 add_executable( DeleteOldFiles ${SOURCES} ${MOC_SOURCES} ${RESOURCES})
 
 # Qt5 Setup:
 
-set( CMAKE_AUTOMOC ON )
-find_package( Qt5Widgets )
+#set( CMAKE_AUTOMOC ON )
+#find_package( Qt5Widgets )
 
 target_link_libraries( DeleteOldFiles AidKit Qt5::Widgets )
 
