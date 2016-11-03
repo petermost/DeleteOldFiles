@@ -33,8 +33,10 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <pera_software/aidkit/qt/widgets/QuitAction.hpp>
+#include <pera_software/company/qt/Settings.hpp>
 
-using namespace pera_software::aidkit::qt;
+using namespace pera_software::aidkit;
+using pera_software::company::qt::Settings;
 
 const QString SPLITTER_KEY( "splitter" );
 
@@ -47,46 +49,13 @@ static bool isNotFromToday( const QFileInfo &fileInfo )
 	return creationDate != TODAY;
 }
 
-
-
-static void createFileMenu( MainWindow *mainWindow )
-{
-	auto quitAction = new QuitAction( mainWindow );
-	QObject::connect( quitAction, &QAction::triggered, mainWindow, &QMainWindow::close );
-
-	auto fileMenu = new QMenu( "&File", mainWindow );
-	fileMenu->addAction( quitAction );
-
-	mainWindow->menuBar()->addMenu( fileMenu );
-}
-
-
-
-static void createHelpMenu( MainWindow *mainWindow )
-{
-	auto aboutAction = new QAction( "&About...", mainWindow );
-	aboutAction->setShortcut( QKeySequence::HelpContents );
-	QObject::connect( aboutAction, &QAction::triggered, mainWindow, &MainWindow::aboutPERA );
-
-	auto aboutQtAction = new QAction( "About &Qt...", mainWindow );
-	QObject::connect( aboutQtAction, &QAction::triggered, [=] {
-		QMessageBox::aboutQt( mainWindow );
-	});
-
-	auto helpMenu = new QMenu( "&Help", mainWindow );
-	helpMenu->addAction( aboutQtAction );
-	helpMenu->addAction( aboutAction );
-
-	mainWindow->menuBar()->addMenu( helpMenu );
-}
-
-
-
 MainWindow::MainWindow(QWidget *parent)
 	: pera_software::company::qt::MainWindow(parent)
 {
-	createFileMenu( this );
-	createHelpMenu( this );
+	// Access and therefore create default menus:
+
+	fileMenu();
+	helpMenu();
 
 	// We need to show and therefore create the status bar here so that another thread can show
 	// messages. If the thread tries to do that we get a "QObject::setParent: Cannot set parent, new
@@ -103,15 +72,19 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-void MainWindow::doReadSettings( QSettings *settings )
+void MainWindow::readSettings( Settings *settings )
 {
+	pera_software::company::qt::MainWindow::readSettings( settings );
+
 	splitter_->restoreState( settings->value( SPLITTER_KEY ).toByteArray() );
 }
 
 
 
-void MainWindow::doWriteSettings( QSettings *settings ) const
+void MainWindow::writeSettings( Settings *settings ) const
 {
+	pera_software::company::qt::MainWindow::writeSettings( settings );
+
 	settings->setValue( SPLITTER_KEY, splitter_->saveState() );
 }
 

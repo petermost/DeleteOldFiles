@@ -37,8 +37,8 @@ class MainWindow : public pera_software::company::qt::MainWindow {
 		void removeOldFiles( const QString &startDirectory );
 
 	protected:
-		virtual void doReadSettings( QSettings *settings ) override;
-		virtual void doWriteSettings( QSettings *settings ) const override;
+		virtual void readSettings( pera_software::company::qt::Settings *settings ) override;
+		virtual void writeSettings( pera_software::company::qt::Settings *settings ) const override;
 
 	private:
 		void showRemovingStarted();
