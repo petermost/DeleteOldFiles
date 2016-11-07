@@ -19,13 +19,6 @@
 #include <QIcon>
 #include <QFile>
 
-const QString Icons::Quit( ":/Images/system-shutdown-16x16.png" );
-
-const QString Icons::Information( ":/Images/dialog-information-16x16.png" );
-const QString Icons::Warning( ":/Images/dialog-warning-16x16.png" );
-const QString Icons::Error( ":/Images/dialog-error-16x16.png" );
-const QString Icons::Debug( ":/Images/Debug.png" );
-
 const QString Icons::Success( ":/Images/dialog-ok-apply-16x16.png" );
 const QString Icons::Failure( ":/Images/dialog-cancel-16x16.png" );
 

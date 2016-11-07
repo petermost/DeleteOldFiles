@@ -13,7 +13,6 @@ set( SOURCES
 	src/Icons.cpp
 	src/MainWindow.cpp
 	src/MessagesTreeWidget.cpp
-	src/MessagesWidget.cpp
 )
 
 set( HEADERS
@@ -24,7 +23,6 @@ set( HEADERS
 	src/Icons.hpp
 	src/MainWindow.hpp
 	src/MessagesTreeWidget.hpp
-	src/MessagesWidget.hpp
 )
 
 find_package( Qt5Widgets )

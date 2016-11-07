@@ -19,12 +19,17 @@
 
 #include <pera_software/company/qt/MainWindow.hpp>
 
-class MessagesWidget;
 class MessagesTreeWidget;
 class QSettings;
 class QTreeWidget;
 class QFileInfo;
 class QSplitter;
+
+namespace pera_software { namespace aidkit { namespace qt {
+
+	class MessagesWidget;
+
+} } }
 
 class MainWindow : public pera_software::company::qt::MainWindow {
 	Q_OBJECT
@@ -51,5 +56,5 @@ class MainWindow : public pera_software::company::qt::MainWindow {
 		QString startDirectory_;
 		QSplitter *splitter_;
 		MessagesTreeWidget *messagesTreeWidget_;
-		MessagesWidget *messagesWidget_;
+		pera_software::aidkit::qt::MessagesWidget *messagesWidget_;
 };

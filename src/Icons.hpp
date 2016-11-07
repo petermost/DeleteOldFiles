@@ -24,13 +24,6 @@ class QString;
 
 class Icons {
 	public:
-		static const QString Quit;
-
-		static const QString Information;
-		static const QString Warning;
-		static const QString Error;
-		static const QString Debug;
-
 		static const QString Success;
 		static const QString Failure;
 

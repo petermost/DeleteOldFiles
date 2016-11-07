@@ -17,7 +17,6 @@
 
 #include "MainWindow.hpp"
 #include "Icons.hpp"
-#include "MessagesWidget.hpp"
 #include "MessagesTreeWidget.hpp"
 #include "DirectoryTreeRemover.hpp"
 #include "DirectoryTreeRemoverThread.hpp"
@@ -34,8 +33,9 @@
 #include <QApplication>
 #include <pera_software/aidkit/qt/widgets/QuitAction.hpp>
 #include <pera_software/company/qt/Settings.hpp>
+#include <pera_software/aidkit/qt/widgets/MessagesWidget.hpp>
 
-using namespace pera_software::aidkit;
+using namespace pera_software::aidkit::qt;
 using pera_software::company::qt::Settings;
 
 const QString SPLITTER_KEY( "splitter" );
@@ -52,10 +52,10 @@ static bool isNotFromToday( const QFileInfo &fileInfo )
 MainWindow::MainWindow(QWidget *parent)
 	: pera_software::company::qt::MainWindow(parent)
 {
-	// Access and therefore create default menus:
+	// Add default menus:
 
-	fileMenu();
-	helpMenu();
+	addFileMenu();
+	addHelpMenu();
 
 	// We need to show and therefore create the status bar here so that another thread can show
 	// messages. If the thread tries to do that we get a "QObject::setParent: Cannot set parent, new
