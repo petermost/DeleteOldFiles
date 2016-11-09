@@ -32,11 +32,12 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <pera_software/aidkit/qt/widgets/QuitAction.hpp>
-#include <pera_software/company/qt/Settings.hpp>
+#include <pera_software/aidkit/qt/core/IniSettings.hpp>
 #include <pera_software/aidkit/qt/widgets/MessagesWidget.hpp>
 
-using namespace pera_software::aidkit::qt;
-using pera_software::company::qt::Settings;
+using namespace pera_software;
+using namespace aidkit;
+using namespace company;
 
 const QString SPLITTER_KEY( "splitter" );
 
@@ -50,7 +51,7 @@ static bool isNotFromToday( const QFileInfo &fileInfo )
 }
 
 MainWindow::MainWindow(QWidget *parent)
-	: pera_software::company::qt::MainWindow(parent)
+	: PERAMainWindow(parent)
 {
 	// Add default menus:
 
@@ -65,25 +66,25 @@ MainWindow::MainWindow(QWidget *parent)
 
 	splitter_ = new QSplitter( Qt::Vertical, this );
 	messagesTreeWidget_ = new MessagesTreeWidget( splitter_ );
-	messagesWidget_ = new MessagesWidget( splitter_ );
+	messagesWidget_ = new aidkit::qt::MessagesWidget( splitter_ );
 	setCentralWidget( splitter_ );
 }
 
 
 
 
-void MainWindow::readSettings( Settings *settings )
+void MainWindow::readSettings( aidkit::qt::IniSettings *settings )
 {
-	pera_software::company::qt::MainWindow::readSettings( settings );
+	PERAMainWindow::readSettings( settings );
 
 	splitter_->restoreState( settings->value( SPLITTER_KEY ).toByteArray() );
 }
 
 
 
-void MainWindow::writeSettings( Settings *settings ) const
+void MainWindow::writeSettings( aidkit::qt::IniSettings *settings ) const
 {
-	pera_software::company::qt::MainWindow::writeSettings( settings );
+	PERAMainWindow::writeSettings( settings );
 
 	settings->setValue( SPLITTER_KEY, splitter_->saveState() );
 }

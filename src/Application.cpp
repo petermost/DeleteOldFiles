@@ -19,8 +19,10 @@
 #include "MainWindow.hpp"
 #include <QSettings>
 
+using namespace pera_software::company::qt;
+
 Application::Application( int &argc, char *argv[] )
-	: pera_software::company::qt::Application( argc, argv )
+	: PERAApplication( argc, argv )
 {
 	mainWindow_ = new MainWindow();
 	mainWindow_->show();
