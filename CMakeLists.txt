@@ -6,39 +6,29 @@ include( ../CppAidKit/cmake/aidkit_options.cmake )
 
 set( SOURCES
 	src/main.cpp
-	src/Application.cpp
-	src/DirectoryTreeRemover.cpp
-	src/DirectoryTreeRemoverThread.cpp
-	src/FileRemover.cpp
-	src/Icons.cpp
-	src/MainWindow.cpp
-	src/MessagesTreeWidget.cpp
-)
-
-set( HEADERS
 	src/Application.hpp
+	src/Application.cpp
 	src/DirectoryTreeRemover.hpp
+	src/DirectoryTreeRemover.cpp
 	src/DirectoryTreeRemoverThread.hpp
+	src/DirectoryTreeRemoverThread.cpp
 	src/FileRemover.hpp
+	src/FileRemover.cpp
 	src/Icons.hpp
+	src/Icons.cpp
 	src/MainWindow.hpp
+	src/MainWindow.cpp
 	src/MessagesTreeWidget.hpp
-)
+	src/MessagesTreeWidget.cpp
 
-find_package( Qt5Widgets )
-
-qt5_wrap_cpp( MOC_SOURCES ${HEADERS} )
-
-qt5_add_resources( RESOURCES
 	src/Images.qrc
 )
 
-add_executable( DeleteOldFiles ${SOURCES} ${MOC_SOURCES} ${RESOURCES})
+find_package( Qt5 COMPONENTS REQUIRED Widgets )
 
-# Qt5 Setup:
+set( CMAKE_AUTOMOC ON )
+set( CMAKE_AUTORCC ON )
 
-#set( CMAKE_AUTOMOC ON )
-#find_package( Qt5Widgets )
-
+add_executable( DeleteOldFiles ${SOURCES})
 target_link_libraries( DeleteOldFiles AidKit Qt5::Widgets )
 
