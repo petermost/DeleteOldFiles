@@ -28,6 +28,14 @@ Application::Application( int &argc, char *argv[] )
 	mainWindow_->show();
 }
 
+void Application::readSettings( QSettings *settings ) noexcept {
+	mainWindow_->readSettings( settings );
+}
+
+void Application::writeSettings( QSettings *settings ) const noexcept {
+	mainWindow_->writeSettings( settings );
+}
+
 
 
 void Application::removeOldFiles()

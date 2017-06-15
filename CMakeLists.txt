@@ -1,8 +1,9 @@
 cmake_minimum_required( VERSION 3.0 )
 project( DeleteOldFiles )
 
-include( ../CppAidKit/cmake/all_options.cmake )
-include( ../CppAidKit/cmake/aidkit_options.cmake )
+add_subdirectory( CppAidKit )
+
+include( CppAidKit/cmake/all_options.cmake )
 
 set( SOURCES
 	src/main.cpp

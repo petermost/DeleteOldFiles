@@ -18,6 +18,7 @@
 #pragma once
 
 #include <pera_software/company/qt/PERAMainWindow.hpp>
+#include <pera_software/aidkit/qt/widgets/ForwardDeclarations.hpp>
 
 class MessagesTreeWidget;
 class QSettings;
@@ -25,23 +26,17 @@ class QTreeWidget;
 class QFileInfo;
 class QSplitter;
 
-namespace pera_software { namespace aidkit { namespace qt {
-	class MessagesWidget;
-} } }
-
 class MainWindow : public pera_software::company::qt::PERAMainWindow {
 	Q_OBJECT
 	public:
 		MainWindow(QWidget *parent = 0);
 
+		virtual void readSettings( QSettings *settings ) noexcept override;
+		virtual void writeSettings( QSettings *settings ) const noexcept override;
 
 	public slots:
 		void removeOldFiles( const QStringList &arguments );
 		void removeOldFiles( const QString &startDirectory );
-
-	protected:
-		virtual void readSettings( pera_software::aidkit::qt::IniSettings *settings ) override;
-		virtual void writeSettings( pera_software::aidkit::qt::IniSettings *settings ) const override;
 
 	private:
 		void showRemovingStarted();

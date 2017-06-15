@@ -17,14 +17,24 @@
 
 #include "Application.hpp"
 #include <QTimer>
+#include <pera_software/aidkit/qt/core/IniSettings.hpp>
 
 using namespace pera_software::company::qt;
+using namespace pera_software::aidkit::qt;
 
-int main( int argc, char *argv[] )
-{
-	::Application application( argc, argv );
+int main( int argc, char *argv[] ) {
 
-	QTimer::singleShot( 0, &application, &::Application::removeOldFiles );
+	Application application( argc, argv );
 
-	return application.exec();
+	IniSettings settings;
+
+	application.readSettings( &settings );
+
+	QTimer::singleShot( 0, &application, &Application::removeOldFiles );
+
+	auto result = application.exec();
+
+	application.writeSettings( &settings );
+
+	return result;
 }

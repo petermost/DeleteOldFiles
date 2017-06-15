@@ -31,7 +31,6 @@
 #include <QStatusBar>
 #include <QMessageBox>
 #include <QApplication>
-#include <pera_software/aidkit/qt/widgets/QuitAction.hpp>
 #include <pera_software/aidkit/qt/core/IniSettings.hpp>
 #include <pera_software/aidkit/qt/widgets/MessagesWidget.hpp>
 
@@ -73,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-void MainWindow::readSettings( aidkit::qt::IniSettings *settings )
+void MainWindow::readSettings( QSettings *settings ) noexcept
 {
 	PERAMainWindow::readSettings( settings );
 
@@ -82,7 +81,7 @@ void MainWindow::readSettings( aidkit::qt::IniSettings *settings )
 
 
 
-void MainWindow::writeSettings( aidkit::qt::IniSettings *settings ) const
+void MainWindow::writeSettings( QSettings *settings ) const noexcept
 {
 	PERAMainWindow::writeSettings( settings );
 
