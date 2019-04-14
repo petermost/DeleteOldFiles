@@ -19,6 +19,7 @@
 
 #include <pera_software/company/qt/PERAMainWindow.hpp>
 #include <pera_software/aidkit/qt/widgets/ForwardDeclarations.hpp>
+#include <QFileInfoList>
 
 class MessagesTreeWidget;
 class QSettings;
@@ -29,14 +30,14 @@ class QSplitter;
 class MainWindow : public pera_software::company::qt::PERAMainWindow {
 	Q_OBJECT
 	public:
-		MainWindow(QWidget *parent = 0);
+		MainWindow(QWidget *parent = nullptr);
 
 		virtual void readSettings( QSettings *settings ) noexcept override;
 		virtual void writeSettings( QSettings *settings ) const noexcept override;
 
 	public slots:
 		void removeOldFiles( const QStringList &arguments );
-		void removeOldFiles( const QString &startDirectory );
+		void removeOldFiles(const QFileInfoList &startDirectories );
 
 	private:
 		void showRemovingStarted();
@@ -46,7 +47,7 @@ class MainWindow : public pera_software::company::qt::PERAMainWindow {
 		void showSkippedEntry( const QFileInfo &parent, const QFileInfo &skippedEntry );
 		void showRemovingEntryFailed( const QFileInfo &parent, const QFileInfo &failedEntry, const QString &errorMessage );
 
-		QString startDirectory_;
+		QFileInfoList startDirectories_;
 		QSplitter *splitter_;
 		MessagesTreeWidget *messagesTreeWidget_;
 		pera_software::aidkit::qt::MessagesWidget *messagesWidget_;

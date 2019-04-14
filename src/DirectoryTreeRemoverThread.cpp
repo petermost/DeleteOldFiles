@@ -17,16 +17,17 @@
 
 #include "DirectoryTreeRemoverThread.hpp"
 #include "DirectoryTreeRemover.hpp"
+#include <QDir>
 #include <QFileInfo>
 
 using namespace pera_software::aidkit::qt;
 
-DirectoryTreeRemoverThread::DirectoryTreeRemoverThread( DirectoryTreeRemover *remover, const QString &startDirectory)
+DirectoryTreeRemoverThread::DirectoryTreeRemoverThread(DirectoryTreeRemover *remover, const QFileInfoList &startDirectories)
 {
 	remover_ = remover;
 	remover_->moveToThread( this );
 
-	startDirectory_ = startDirectory;
+	startDirectories_ = startDirectories;
 
 	qRegisterMetaType<QFileInfo>("QFileInfo");
 }
@@ -35,5 +36,6 @@ void DirectoryTreeRemoverThread::run()
 {
 	DirectoryGuide guide;
 
-	guide.walk( startDirectory_, remover_ );
+	for (QFileInfo startDirectory : startDirectories_)
+		guide.walk( startDirectory, remover_ );
 }

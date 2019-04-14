@@ -17,7 +17,7 @@
 
 #include "Application.hpp"
 #include <QTimer>
-#include <pera_software/aidkit/qt/core/IniSettings.hpp>
+#include <pera_software/company/qt/PERAIniSettings.hpp>
 
 using namespace pera_software::company::qt;
 using namespace pera_software::aidkit::qt;
@@ -26,7 +26,7 @@ int main( int argc, char *argv[] ) {
 
 	Application application( argc, argv );
 
-	IniSettings settings;
+	PERAIniSettings settings(Application::NAME);
 
 	application.readSettings( &settings );
 

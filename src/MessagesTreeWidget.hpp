@@ -27,7 +27,7 @@ class QIcon;
 class MessagesTreeWidget : public QTreeWidget {
 	Q_OBJECT
 	public:
-		explicit MessagesTreeWidget(QWidget *parent = 0);
+		explicit MessagesTreeWidget(QWidget *parent = nullptr);
 
 		void visitDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory );
 		void visitFile( const QFileInfo &parentDirectory, const QFileInfo &currentFile );

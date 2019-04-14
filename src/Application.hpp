@@ -25,6 +25,8 @@ class MainWindow;
 class Application : public pera_software::company::qt::PERAApplication, public pera_software::aidkit::qt::Persistable {
 	Q_OBJECT
 	public:
+		static const QString NAME;
+
 		Application( int &argc, char *argv[] );
 
 		void readSettings( QSettings *settings ) noexcept override;

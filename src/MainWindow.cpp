@@ -21,6 +21,7 @@
 #include "DirectoryTreeRemover.hpp"
 #include "DirectoryTreeRemoverThread.hpp"
 
+#include <QDir>
 #include <QDate>
 #include <QMenu>
 #include <QAction>
@@ -33,21 +34,18 @@
 #include <QApplication>
 #include <pera_software/aidkit/qt/core/IniSettings.hpp>
 #include <pera_software/aidkit/qt/widgets/MessagesWidget.hpp>
+#include <pera_software/aidkit/containers.hpp>
 
+#include <sstream>
+
+using namespace std;
 using namespace pera_software;
 using namespace aidkit;
 using namespace company;
+using namespace containers;
 
 const QString SPLITTER_KEY( "splitter" );
 
-static const QDate TODAY = QDateTime::currentDateTime().date();
-
-static bool isNotFromToday( const QFileInfo &fileInfo )
-{
-	auto creationDate = fileInfo.created().date();
-
-	return creationDate != TODAY;
-}
 
 MainWindow::MainWindow(QWidget *parent)
 	: PERAMainWindow(parent)
@@ -93,21 +91,28 @@ void MainWindow::removeOldFiles( const QStringList &arguments )
 {
 	// Show an error message and the usage when the start directory is missing:
 
-	if ( arguments.size() == 2 )
-		removeOldFiles( arguments.at( 1 ));
-	else {
-		messagesWidget_->showError( "Missing start directory name!" );
-		messagesWidget_->showInformation( QString( "Usage: %1 <start directory name>" ).arg( QApplication::applicationDisplayName() ));
+	if ( arguments.size() > 0 ) {
+		QFileInfoList startDirectories;
+		for (const QString &argument : arguments) {
+			startDirectories.append(argument);
+		}
+		removeOldFiles(startDirectories);
+	} else {
+		messagesWidget_->showError( "Missing start directory name(s)!" );
+		messagesWidget_->showInformation( QString( "Usage: %1 <start directory name> [ | <start directory name>]" ).arg( QApplication::applicationDisplayName() ));
 	}
 }
 
-
-
-void MainWindow::removeOldFiles( const QString &startDirectory )
+void MainWindow::removeOldFiles( const QFileInfoList &startDirectories )
 {
 	// Setup the remover:
 
-	auto remover = new DirectoryTreeRemover( &isNotFromToday );
+	QDate today = QDateTime::currentDateTime().date();
+	auto remover = new DirectoryTreeRemover([=](const QFileInfo &fileInfo) {
+		auto creationDate = fileInfo.birthTime().date();
+
+		return creationDate != today;
+	});
 
 	// Show the removed files in the tree:
 
@@ -123,11 +128,11 @@ void MainWindow::removeOldFiles( const QString &startDirectory )
 
 	// Setup the remover thread:
 
-	auto removerThread = new DirectoryTreeRemoverThread( remover, startDirectory );
+	auto removerThread = new DirectoryTreeRemoverThread( remover, startDirectories );
 
 	// Show a message when we start/finished removing files:
 
-	startDirectory_ = startDirectory;
+	startDirectories_ = startDirectories;
 	connect( removerThread, &QThread::started, this, &MainWindow::showRemovingStarted, Qt::BlockingQueuedConnection );
 	connect( removerThread, &QThread::finished, this, &MainWindow::showRemovingFinished, Qt::BlockingQueuedConnection );
 	connect( removerThread, &QThread::finished, removerThread, &QObject::deleteLater, Qt::BlockingQueuedConnection );
@@ -135,11 +140,25 @@ void MainWindow::removeOldFiles( const QString &startDirectory )
 	removerThread->start();
 }
 
+static ostream &operator << (ostream &output, const QString &qstring)
+{
+	return output << qstring.toUtf8().data();
+}
+
+static ostream &operator << (ostream &output, const QFileInfo &fileInfo)
+{
+	return output << fileInfo.absoluteFilePath();
+}
+
+static QString printStartDirectories(const QFileInfoList &startDirectories)
+{
+	return QString::fromStdString(print(startDirectories, "\'", ", ", "\'"));
+}
 
 
 void MainWindow::showRemovingStarted()
 {
-	auto removingStartMessage = QString( "Removing old files in directory '%1'..." ).arg( startDirectory_ );
+	auto removingStartMessage = QString( "Removing old files in directories: %1..." ).arg(printStartDirectories(startDirectories_));
 	messagesWidget_->showInformation( removingStartMessage );
 	statusBar()->showMessage( removingStartMessage );
 }
@@ -148,7 +167,7 @@ void MainWindow::showRemovingStarted()
 
 void MainWindow::showRemovingFinished()
 {
-	auto removingFinishedMessage = QString( "Finished removing old files in directory: %1.").arg( startDirectory_ );
+	auto removingFinishedMessage = QString( "Finished removing old files in directories: %1.").arg(printStartDirectories(startDirectories_));
 	messagesWidget_->showInformation( removingFinishedMessage );
 	statusBar()->showMessage( removingFinishedMessage );
 }

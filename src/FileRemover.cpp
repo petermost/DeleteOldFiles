@@ -48,18 +48,6 @@ static bool removeDirectory(const QString &filePath, QString *errorMessage)
 
 #elif defined( Q_OS_LINUX )
 
-//static bool fakeRemoval( const QString &filePath, QString *errorMessage )
-//{
-//	static int count = 0;
-
-//	if ( count++ % 2 == 0 )
-//		return true;
-//	else {
-//		*errorMessage = QString( "Faked error message for '%1'" ).arg( filePath );
-//		return false;
-//	}
-//}
-
 static bool fakeRemoval( const QString &, QString * )
 {
 	return true;

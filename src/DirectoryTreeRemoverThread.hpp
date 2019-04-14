@@ -19,14 +19,14 @@
 
 #include <QThread>
 #include <QString>
+#include <QFileInfoList>
 
-class QFileInfo;
 class DirectoryTreeRemover;
 
 class DirectoryTreeRemoverThread : public QThread {
 	Q_OBJECT
 	public:
-		DirectoryTreeRemoverThread( DirectoryTreeRemover *remover, const QString &startDirectory );
+		DirectoryTreeRemoverThread(DirectoryTreeRemover *remover, const QFileInfoList &startDirectories );
 
 	signals:
 
@@ -37,5 +37,5 @@ class DirectoryTreeRemoverThread : public QThread {
 
 	private:
 		DirectoryTreeRemover *remover_;
-		QString startDirectory_;
+		QFileInfoList startDirectories_;
 };

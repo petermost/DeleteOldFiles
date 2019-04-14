@@ -21,8 +21,10 @@
 
 using namespace pera_software::company::qt;
 
+const QString Application::NAME(QStringLiteral("DeleteOldFiles"));
+
 Application::Application( int &argc, char *argv[] )
-	: PERAApplication( argc, argv )
+	: PERAApplication(NAME, argc, argv)
 {
 	mainWindow_ = new MainWindow();
 	mainWindow_->show();
@@ -40,5 +42,6 @@ void Application::writeSettings( QSettings *settings ) const noexcept {
 
 void Application::removeOldFiles()
 {
-	mainWindow_->removeOldFiles( arguments() );
+	QStringList startDirectories(arguments().mid(1));
+	mainWindow_->removeOldFiles(startDirectories);
 }
