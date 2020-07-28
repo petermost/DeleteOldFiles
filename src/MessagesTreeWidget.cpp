@@ -29,7 +29,7 @@ MessagesTreeWidget::MessagesTreeWidget(QWidget *parent) :
 	QTreeWidget(parent)
 {
 	setColumnCount( 2 );
-	setHeaderLabels({ "Name", "Error" });
+	setHeaderLabels({ tr("Name"), tr("Error") });
 	setAlternatingRowColors( true );
 }
 

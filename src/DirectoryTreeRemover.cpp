@@ -33,7 +33,7 @@ DirectoryTreeRemover::DirectoryTreeRemover( const function< bool ( const QFileIn
 
 bool DirectoryTreeRemover::visitDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory )
 {
-	emit visitingDirectory( parentDirectory, currentDirectory );
+	Q_EMIT visitingDirectory( parentDirectory, currentDirectory );
 
 	// We don't check the date of the directory, because at least under Linux the creation date seems
 	// to get updated whenever a file in the directory has been created. But it still might contain
@@ -46,18 +46,18 @@ bool DirectoryTreeRemover::visitDirectory( const QFileInfo &parentDirectory, con
 
 bool DirectoryTreeRemover::visitFile( const QFileInfo &parentDirectory, const QFileInfo &currentFile )
 {
-	emit visitingFile( parentDirectory, currentFile );
+	Q_EMIT visitingFile( parentDirectory, currentFile );
 
 	// Skip files which have been created today:
 
 	if ( removeCondition_( currentFile )) {
 		QString errorMessage;
 		if ( fileRemover_.remove( currentFile, &errorMessage )) // || fileRemover_.forceRemove( currentFile, &errorMessage )
-			emit entryRemoved( parentDirectory, currentFile );
+			Q_EMIT entryRemoved( parentDirectory, currentFile );
 		else
-			emit removingEntryFailed( parentDirectory, currentFile, errorMessage );
+			Q_EMIT removingEntryFailed( parentDirectory, currentFile, errorMessage );
 	} else
-		emit entrySkipped( parentDirectory, currentFile );
+		Q_EMIT entrySkipped( parentDirectory, currentFile );
 
 	return true;
 }
@@ -70,13 +70,13 @@ bool DirectoryTreeRemover::leaveDirectory( const QFileInfo &parentDirectory , co
 
 	if ( removeCondition_( currentDirectory )) {
 		if ( fileRemover_.remove( currentDirectory, &errorMessage ))
-			emit entryRemoved( parentDirectory, currentDirectory );
+			Q_EMIT entryRemoved( parentDirectory, currentDirectory );
 		else
-			emit removingEntryFailed( parentDirectory, currentDirectory, errorMessage );
+			Q_EMIT removingEntryFailed( parentDirectory, currentDirectory, errorMessage );
 	} else
-		emit entrySkipped( parentDirectory, currentDirectory );
+		Q_EMIT entrySkipped( parentDirectory, currentDirectory );
 
-	emit leavingDirectory( parentDirectory, currentDirectory );
+	Q_EMIT leavingDirectory( parentDirectory, currentDirectory );
 
 	return true;
 }

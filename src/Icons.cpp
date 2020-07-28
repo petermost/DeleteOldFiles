@@ -19,13 +19,13 @@
 #include <QIcon>
 #include <QFile>
 
-const QString Icons::Success( ":/Images/dialog-ok-apply-16x16.png" );
-const QString Icons::Failure( ":/Images/dialog-cancel-16x16.png" );
+const QString Icons::Success(QStringLiteral(":/Images/dialog-ok-apply-16x16.png"));
+const QString Icons::Failure(QStringLiteral(":/Images/dialog-cancel-16x16.png" ));
 
-const QString Icons::Clock( ":/Images/clock-16x16.png" );
+const QString Icons::Clock(QStringLiteral(":/Images/clock-16x16.png"));
 //const QString Icons::Trash( ":/Images/trash-empty-16x16.png" );
-const QString Icons::Trash( ":/Images/user-trash-16x16.png" );
-const QString Icons::Bug( ":/Images/script-error-16x16.png" );
+const QString Icons::Trash(QStringLiteral(":/Images/user-trash-16x16.png"));
+const QString Icons::Bug(QStringLiteral(":/Images/script-error-16x16.png"));
 
 const QIcon &Icons::operator[]( const QString &iconName )
 {

@@ -41,10 +41,9 @@
 using namespace std;
 using namespace pera_software;
 using namespace aidkit;
-using namespace company;
 using namespace containers;
 
-const QString SPLITTER_KEY( "splitter" );
+const QString SPLITTER_KEY(QStringLiteral("splitter"));
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -98,8 +97,8 @@ void MainWindow::removeOldFiles( const QStringList &arguments )
 		}
 		removeOldFiles(startDirectories);
 	} else {
-		messagesWidget_->showError( "Missing start directory name(s)!" );
-		messagesWidget_->showInformation( QString( "Usage: %1 <start directory name> [ | <start directory name>]" ).arg( QApplication::applicationDisplayName() ));
+		messagesWidget_->showError(tr("Missing start directory name(s)!"));
+		messagesWidget_->showInformation( tr("Usage: %1 <start directory name> [ | <start directory name>]").arg( QApplication::applicationDisplayName() ));
 	}
 }
 
@@ -152,13 +151,13 @@ static ostream &operator << (ostream &output, const QFileInfo &fileInfo)
 
 static QString printStartDirectories(const QFileInfoList &startDirectories)
 {
-	return QString::fromStdString(print(startDirectories, "\'", ", ", "\'"));
+	return QString::fromStdString(join(startDirectories, "\'", ", ", "\'"));
 }
 
 
 void MainWindow::showRemovingStarted()
 {
-	auto removingStartMessage = QString( "Removing old files in directories: %1..." ).arg(printStartDirectories(startDirectories_));
+	auto removingStartMessage = tr("Removing old files in directories: %1...").arg(printStartDirectories(startDirectories_));
 	messagesWidget_->showInformation( removingStartMessage );
 	statusBar()->showMessage( removingStartMessage );
 }
@@ -167,7 +166,7 @@ void MainWindow::showRemovingStarted()
 
 void MainWindow::showRemovingFinished()
 {
-	auto removingFinishedMessage = QString( "Finished removing old files in directories: %1.").arg(printStartDirectories(startDirectories_));
+	auto removingFinishedMessage = tr( "Finished removing old files in directories: %1.").arg(printStartDirectories(startDirectories_));
 	messagesWidget_->showInformation( removingFinishedMessage );
 	statusBar()->showMessage( removingFinishedMessage );
 }
@@ -184,7 +183,7 @@ void MainWindow::showRemovedEntry( const QFileInfo &parent, const QFileInfo &rem
 
 void MainWindow::showSkippedEntry( const QFileInfo &parent, const QFileInfo &skippedEntry )
 {
-	messagesWidget_->showWarning( QString( "Skipping today's entry: %1/%2." ).arg( parent.fileName() ).arg( skippedEntry.fileName() ));
+	messagesWidget_->showWarning( tr( "Skipping today's entry: %1/%2." ).arg( parent.fileName() ).arg( skippedEntry.fileName() ));
 	messagesTreeWidget_->showSkippedEntry( parent, skippedEntry );
 }
 
@@ -192,6 +191,6 @@ void MainWindow::showSkippedEntry( const QFileInfo &parent, const QFileInfo &ski
 
 void MainWindow::showRemovingEntryFailed(const QFileInfo &parent, const QFileInfo &failedEntry , const QString &errorMessage )
 {
-	messagesWidget_->showError( QString( "Removing entry: %1/%2 failed because: %3!" ).arg( parent.fileName() ).arg( failedEntry.fileName() ).arg( errorMessage ));
+	messagesWidget_->showError( tr( "Removing entry: %1/%2 failed because: %3!" ).arg( parent.fileName() ).arg( failedEntry.fileName() ).arg( errorMessage ));
 	messagesTreeWidget_->showRemovingEntryFailed( parent, failedEntry, errorMessage );
 }

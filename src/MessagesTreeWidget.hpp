@@ -37,9 +37,9 @@ class MessagesTreeWidget : public QTreeWidget {
 		void showRemovedEntry( const QFileInfo &parent, const QFileInfo &entry );
 		void showRemovingEntryFailed( const QFileInfo &parent, const QFileInfo &entry, const QString &errorMessage );
 
-	signals:
+	Q_SIGNALS:
 
-	public slots:
+	public Q_SLOTS:
 
 	private:
 		void addItem(const QFileInfo &parentDirectory, const QFileInfo &currentEntry);

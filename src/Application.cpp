@@ -19,11 +19,11 @@
 #include "MainWindow.hpp"
 #include <QSettings>
 
-using namespace pera_software::company::qt;
+// using namespace pera_software::aidkit::qt;
 
 const QString Application::NAME(QStringLiteral("DeleteOldFiles"));
 
-Application::Application( int &argc, char *argv[] )
+Application::Application(int *argc, char *argv[] )
 	: PERAApplication(NAME, argc, argv)
 {
 	mainWindow_ = new MainWindow();

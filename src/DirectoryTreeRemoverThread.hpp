@@ -28,9 +28,9 @@ class DirectoryTreeRemoverThread : public QThread {
 	public:
 		DirectoryTreeRemoverThread(DirectoryTreeRemover *remover, const QFileInfoList &startDirectories );
 
-	signals:
+	Q_SIGNALS:
 
-	public slots:
+	public Q_SLOTS:
 
 	protected:
 		virtual void run() override;

@@ -28,7 +28,7 @@ class DirectoryTreeRemover : public pera_software::aidkit::qt::DirectoryVisitor 
 	public:
 		DirectoryTreeRemover( const std::function< bool ( const QFileInfo & )> &removeCondition, QObject *parent = nullptr );
 
-	signals:
+	Q_SIGNALS:
 		void visitingDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory );
 		void visitingFile( const QFileInfo &parentDirectory, const QFileInfo &currentFile );
 		void leavingDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory );

@@ -1,11 +1,15 @@
 cmake_minimum_required( VERSION 3.12 )
 project( DeleteOldFiles )
 
-add_subdirectory( CppAidKit )
+find_package(Qt5 COMPONENTS REQUIRED Widgets)
 
-include( CppAidKit/cmake/all_options.cmake )
+set( CMAKE_AUTOMOC ON )
+set( CMAKE_AUTORCC ON )
 
-set( SOURCES
+add_subdirectory(CppAidKit)
+include(CppAidKit/cmake/all_options.cmake)
+
+add_executable(DeleteOldFiles
 	src/main.cpp
 	src/Application.hpp
 	src/Application.cpp
@@ -24,12 +28,6 @@ set( SOURCES
 
 	src/Images.qrc
 )
-
-find_package( Qt5 COMPONENTS REQUIRED Widgets )
-
-set( CMAKE_AUTOMOC ON )
-set( CMAKE_AUTORCC ON )
-
-add_executable( DeleteOldFiles ${SOURCES})
-target_link_libraries( DeleteOldFiles AidKit Qt5::Widgets )
+set_default_target_options(DeleteOldFiles)
+target_link_libraries(DeleteOldFiles AidKit Qt5::Widgets)
 

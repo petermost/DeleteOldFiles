@@ -17,24 +17,24 @@
 
 #pragma once
 
-#include <pera_software/company/qt/PERAApplication.hpp>
+#include <pera_software/aidkit/qt/widgets/PERAApplication.hpp>
 #include <pera_software/aidkit/qt/core/Persistable.hpp>
 
 class MainWindow;
 
-class Application : public pera_software::company::qt::PERAApplication, public pera_software::aidkit::qt::Persistable {
+class Application : public pera_software::aidkit::qt::PERAApplication, public pera_software::aidkit::qt::Persistable {
 	Q_OBJECT
 	public:
 		static const QString NAME;
 
-		Application( int &argc, char *argv[] );
+		Application( int *argc, char *argv[] );
 
 		void readSettings( QSettings *settings ) noexcept override;
 		void writeSettings( QSettings *settings ) const noexcept override;
 
-	signals:
+	Q_SIGNALS:
 
-	public slots:
+	public Q_SLOTS:
 		void removeOldFiles();
 
 	private:

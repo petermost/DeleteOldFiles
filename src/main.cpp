@@ -17,16 +17,15 @@
 
 #include "Application.hpp"
 #include <QTimer>
-#include <pera_software/company/qt/PERAIniSettings.hpp>
+#include <pera_software/aidkit/qt/core/PERAIniSettings.hpp>
 
-using namespace pera_software::company::qt;
-using namespace pera_software::aidkit::qt;
+using namespace pera_software::aidkit;
 
 int main( int argc, char *argv[] ) {
 
-	Application application( argc, argv );
+	Application application( &argc, argv );
 
-	PERAIniSettings settings(Application::NAME);
+	qt::PERAIniSettings settings(Application::NAME);
 
 	application.readSettings( &settings );
 
