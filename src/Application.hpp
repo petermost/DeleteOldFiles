@@ -17,20 +17,18 @@
 
 #pragma once
 
+#include "MainWindow.hpp"
+
 #include <pera_software/aidkit/qt/widgets/PERAApplication.hpp>
-#include <pera_software/aidkit/qt/core/Persistable.hpp>
 
-class MainWindow;
+class Settings;
 
-class Application : public pera_software::aidkit::qt::PERAApplication, public pera_software::aidkit::qt::Persistable {
+class Application : public pera_software::aidkit::qt::PERAApplication {
 	Q_OBJECT
 	public:
 		static const QString NAME;
 
-		Application( int *argc, char *argv[] );
-
-		void readSettings( QSettings *settings ) noexcept override;
-		void writeSettings( QSettings *settings ) const noexcept override;
+		Application(QSharedPointer<Settings> settings, int *argc, char *argv[]);
 
 	Q_SIGNALS:
 
@@ -38,5 +36,5 @@ class Application : public pera_software::aidkit::qt::PERAApplication, public pe
 		void removeOldFiles();
 
 	private:
-		MainWindow *mainWindow_;
+		MainWindow mainWindow_;
 };

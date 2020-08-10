@@ -16,67 +16,62 @@
 // along with DeleteOldFiles.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "DirectoryTreeRemover.hpp"
-#include "FileRemover.hpp"
 #include <QFileInfo>
+#include <pera_software/aidkit/qt/core/DirectoryGuide.hpp>
 
 using namespace std;
 using namespace pera_software::aidkit::qt;
 
-
-DirectoryTreeRemover::DirectoryTreeRemover( const function< bool ( const QFileInfo & )> &removeCondition, QObject *parent )
-	: DirectoryVisitor( parent )
+DirectoryTreeRemover::DirectoryTreeRemover(RemoveMode removeMode, function<bool(const QFileInfo &)> removeCondition, QObject *parent)
+	: QObject(parent), fileRemover_(removeMode), removeCondition_(move(removeCondition))
 {
-	removeCondition_ = removeCondition;
 }
 
-
-
-bool DirectoryTreeRemover::visitDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory )
+void DirectoryTreeRemover::onDirectoryVisited(const QFileInfo &parentDirectory, const QFileInfo &currentDirectory, bool *)
 {
-	Q_EMIT visitingDirectory( parentDirectory, currentDirectory );
+	Q_EMIT visitingDirectory(parentDirectory, currentDirectory);
 
 	// We don't check the date of the directory, because at least under Linux the creation date seems
 	// to get updated whenever a file in the directory has been created. But it still might contain
 	// entries which are very well old enough to be deleted.
-
-	return true;
 }
 
-
-
-bool DirectoryTreeRemover::visitFile( const QFileInfo &parentDirectory, const QFileInfo &currentFile )
+void DirectoryTreeRemover::onFileVisited(const QFileInfo &parentDirectory, const QFileInfo &currentFile, bool *)
 {
-	Q_EMIT visitingFile( parentDirectory, currentFile );
+	Q_EMIT visitingFile(parentDirectory, currentFile);
 
-	// Skip files which have been created today:
+	// Skip files which don't match the remove condition:
 
-	if ( removeCondition_( currentFile )) {
+	if (removeCondition_(currentFile)) {
 		QString errorMessage;
-		if ( fileRemover_.remove( currentFile, &errorMessage )) // || fileRemover_.forceRemove( currentFile, &errorMessage )
-			Q_EMIT entryRemoved( parentDirectory, currentFile );
+		if (fileRemover_.remove(currentFile, &errorMessage)) // || fileRemover_.forceRemove( currentFile, &errorMessage )
+			Q_EMIT entryRemoved(parentDirectory, currentFile);
 		else
-			Q_EMIT removingEntryFailed( parentDirectory, currentFile, errorMessage );
+			Q_EMIT removingEntryFailed(parentDirectory, currentFile, errorMessage);
 	} else
-		Q_EMIT entrySkipped( parentDirectory, currentFile );
-
-	return true;
+		Q_EMIT entrySkipped(parentDirectory, currentFile);
 }
 
-
-
-bool DirectoryTreeRemover::leaveDirectory( const QFileInfo &parentDirectory , const QFileInfo &currentDirectory )
+void DirectoryTreeRemover::onDirectoryLeft(const QFileInfo &parentDirectory, const QFileInfo &currentDirectory, bool *)
 {
 	QString errorMessage;
 
-	if ( removeCondition_( currentDirectory )) {
-		if ( fileRemover_.remove( currentDirectory, &errorMessage ))
-			Q_EMIT entryRemoved( parentDirectory, currentDirectory );
+	// Skip directories which don't match the remove condition:
+
+	if (removeCondition_(currentDirectory)) {
+		if (fileRemover_.remove(currentDirectory, &errorMessage))
+			Q_EMIT entryRemoved(parentDirectory, currentDirectory);
 		else
-			Q_EMIT removingEntryFailed( parentDirectory, currentDirectory, errorMessage );
+			Q_EMIT removingEntryFailed(parentDirectory, currentDirectory, errorMessage);
 	} else
-		Q_EMIT entrySkipped( parentDirectory, currentDirectory );
+		Q_EMIT entrySkipped(parentDirectory, currentDirectory);
 
-	Q_EMIT leavingDirectory( parentDirectory, currentDirectory );
+	Q_EMIT leavingDirectory(parentDirectory, currentDirectory);
+}
 
-	return true;
+void connectDirectoryGuideSignals(const DirectoryGuide &guide, DirectoryTreeRemover *remover)
+{
+	QObject::connect(&guide, &DirectoryGuide::directoryVisited, remover, &DirectoryTreeRemover::onDirectoryVisited);
+	QObject::connect(&guide, &DirectoryGuide::fileVisited, remover, &DirectoryTreeRemover::onFileVisited);
+	QObject::connect(&guide, &DirectoryGuide::directoryLeft, remover, &DirectoryTreeRemover::onDirectoryLeft);
 }

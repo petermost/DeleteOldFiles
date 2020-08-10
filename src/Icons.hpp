@@ -22,7 +22,7 @@
 class QIcon;
 class QString;
 
-class Icons {
+class Icons final {
 	public:
 		static const QString Success;
 		static const QString Failure;
@@ -31,10 +31,13 @@ class Icons {
 		static const QString Trash;
 		static const QString Bug;
 
-		const QIcon &operator[]( const QString &iconName );
+		Icons();
+		~Icons();
+
+		const QIcon &operator[](const QString &iconName);
 
 	private:
-		QHash< QString, QIcon > icons_;
+		QHash<QString, QIcon> icons_;
 };
 
 extern class Icons Icons;

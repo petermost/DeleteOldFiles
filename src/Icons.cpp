@@ -20,19 +20,28 @@
 #include <QFile>
 
 const QString Icons::Success(QStringLiteral(":/Images/dialog-ok-apply-16x16.png"));
-const QString Icons::Failure(QStringLiteral(":/Images/dialog-cancel-16x16.png" ));
+const QString Icons::Failure(QStringLiteral(":/Images/dialog-cancel-16x16.png"));
 
 const QString Icons::Clock(QStringLiteral(":/Images/clock-16x16.png"));
 //const QString Icons::Trash( ":/Images/trash-empty-16x16.png" );
 const QString Icons::Trash(QStringLiteral(":/Images/user-trash-16x16.png"));
 const QString Icons::Bug(QStringLiteral(":/Images/script-error-16x16.png"));
 
-const QIcon &Icons::operator[]( const QString &iconName )
+Icons::Icons()
 {
-	auto it = icons_.find( iconName );
-	if ( it == icons_.end() ) {
-		Q_ASSERT( QFile::exists( iconName ));
-		it = icons_.insert( iconName, QIcon( iconName ));
+	Q_INIT_RESOURCE(Images);
+}
+
+Icons::~Icons()
+{
+	Q_CLEANUP_RESOURCE(Images);
+}
+
+const QIcon &Icons::operator[](const QString &iconName)
+{
+	auto it = icons_.find(iconName);
+	if (it == icons_.end()) {
+		it = icons_.insert(iconName, QIcon(iconName));
 	}
 	return it.value();
 }

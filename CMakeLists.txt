@@ -9,8 +9,34 @@ set( CMAKE_AUTORCC ON )
 add_subdirectory(CppAidKit)
 include(CppAidKit/cmake/all_options.cmake)
 
+add_googletest_subdirectory()
+
+# 'DeleteOldFiles' executable:
+
 add_executable(DeleteOldFiles
 	src/main.cpp
+)
+set_default_target_options(DeleteOldFiles)
+target_link_libraries(DeleteOldFiles
+	DeleteOldFilesLib
+)
+
+# 'DeleteOldFiles' tests:
+
+add_executable(DeleteOldFilesTests
+	tests/SettingsTest.cpp
+	tests/IconsTest.cpp
+)
+set_default_target_options(DeleteOldFilesTests)
+target_link_libraries(DeleteOldFilesTests
+	DeleteOldFilesLib
+	GTest::GTest
+	GTest::Main
+)
+
+# 'DeleteOldFiles' static lib:
+
+add_library(DeleteOldFilesLib STATIC
 	src/Application.hpp
 	src/Application.cpp
 	src/DirectoryTreeRemover.hpp
@@ -25,9 +51,18 @@ add_executable(DeleteOldFiles
 	src/MainWindow.cpp
 	src/MessagesTreeWidget.hpp
 	src/MessagesTreeWidget.cpp
+	src/Settings.hpp
+	src/Settings.cpp
 
 	src/Images.qrc
 )
-set_default_target_options(DeleteOldFiles)
-target_link_libraries(DeleteOldFiles AidKit Qt5::Widgets)
+set_default_target_options(DeleteOldFilesLib)
+target_include_directories(DeleteOldFilesLib
+	PUBLIC
+		src/
+)
 
+target_link_libraries(DeleteOldFilesLib
+	AidKit
+	Qt5::Widgets
+)

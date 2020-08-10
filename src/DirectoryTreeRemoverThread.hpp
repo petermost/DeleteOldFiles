@@ -26,7 +26,7 @@ class DirectoryTreeRemover;
 class DirectoryTreeRemoverThread : public QThread {
 	Q_OBJECT
 	public:
-		DirectoryTreeRemoverThread(DirectoryTreeRemover *remover, const QFileInfoList &startDirectories );
+		DirectoryTreeRemoverThread(std::unique_ptr<DirectoryTreeRemover> remover, const QFileInfoList &startDirectories );
 
 	Q_SIGNALS:
 
@@ -36,6 +36,6 @@ class DirectoryTreeRemoverThread : public QThread {
 		virtual void run() override;
 
 	private:
-		DirectoryTreeRemover *remover_;
+		std::unique_ptr<DirectoryTreeRemover> remover_;
 		QFileInfoList startDirectories_;
 };

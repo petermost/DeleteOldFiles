@@ -29,10 +29,6 @@ class MessagesTreeWidget : public QTreeWidget {
 	public:
 		explicit MessagesTreeWidget(QWidget *parent = nullptr);
 
-		void visitDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory );
-		void visitFile( const QFileInfo &parentDirectory, const QFileInfo &currentFile );
-		void leaveDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory );
-
 		void showSkippedEntry( const QFileInfo &parent, const QFileInfo &entry );
 		void showRemovedEntry( const QFileInfo &parent, const QFileInfo &entry );
 		void showRemovingEntryFailed( const QFileInfo &parent, const QFileInfo &entry, const QString &errorMessage );
@@ -40,6 +36,9 @@ class MessagesTreeWidget : public QTreeWidget {
 	Q_SIGNALS:
 
 	public Q_SLOTS:
+		void visitDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory );
+		void visitFile( const QFileInfo &parentDirectory, const QFileInfo &currentFile );
+		void leaveDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory );
 
 	private:
 		void addItem(const QFileInfo &parentDirectory, const QFileInfo &currentEntry);

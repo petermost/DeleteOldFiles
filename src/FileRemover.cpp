@@ -21,63 +21,49 @@
 #include <QFile>
 #include <QDir>
 
-#if defined( Q_OS_WIN )
-
 static bool removeFile(const QString &filePath, QString *errorMessage)
 {
-	QFile file( filePath );
-	if ( file.remove() )
+	QFile file(filePath);
+	if (file.remove())
 		return true;
 	else {
-		*errorMessage = file.errorString().remove( "\r\n" );
+		*errorMessage = file.errorString()
+				.remove(QChar::SpecialCharacter::LineFeed)
+				.remove(QChar::SpecialCharacter::CarriageReturn);
 		return false;
 	}
 }
-
 
 static bool removeDirectory(const QString &filePath, QString *errorMessage)
 {
 	QDir dir;
-	if ( dir.rmdir( filePath ))
+	if (dir.rmdir(filePath))
 		return true;
 	else {
-		*errorMessage = "Unknown error";
+		*errorMessage = FileRemover::tr("Unknown error");
 		return false;
 	}
 }
 
-#elif defined( Q_OS_LINUX )
-
-static bool fakeRemoval( const QString &, QString * )
+FileRemover::FileRemover(RemoveMode mode)
+	: mode_(mode)
 {
-	return true;
 }
 
-static bool removeFile(const QString &filePath, QString *errorMessage)
+bool FileRemover::remove(const QFileInfo &fileInfo, QString *errorMessage)
 {
-	return fakeRemoval( filePath, errorMessage );
+	if (mode_ == RemoveMode::Real) {
+		QString filePath = fileInfo.filePath();
+		if (fileInfo.isFile())
+			return removeFile(filePath, errorMessage);
+		else if (fileInfo.isDir())
+			return removeDirectory(filePath, errorMessage);
+		else
+			return false;
+	} else {
+		return true;
+	}
 }
-
-static bool removeDirectory(const QString &filePath, QString *errorMessage)
-{
-	return fakeRemoval( filePath, errorMessage );
-}
-
-#endif
-
-
-
-bool FileRemover::remove( const QFileInfo &fileInfo, QString *errorMessage )
-{
-	QString filePath = fileInfo.filePath();
-	if ( fileInfo.isFile() )
-		return removeFile( filePath, errorMessage );
-	else if ( fileInfo.isDir() )
-		return removeDirectory( filePath, errorMessage );
-	else
-		return false;
-}
-
 
 //bool FileRemover::forceRemove(const QFileInfo &fileInfo, QString *errorMessage)
 //{
@@ -96,4 +82,3 @@ bool FileRemover::remove( const QFileInfo &fileInfo, QString *errorMessage )
 //		return false;
 //	}
 //}
-

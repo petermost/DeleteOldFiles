@@ -20,24 +20,23 @@
 #include <pera_software/aidkit/qt/widgets/PERAMainWindow.hpp>
 #include <pera_software/aidkit/qt/widgets/ForwardDeclarations.hpp>
 #include <QFileInfoList>
+#include <memory>
 
 class MessagesTreeWidget;
 class QSettings;
 class QTreeWidget;
 class QFileInfo;
 class QSplitter;
+class Settings;
 
 class MainWindow : public pera_software::aidkit::qt::PERAMainWindow {
 	Q_OBJECT
 	public:
-		MainWindow(QWidget *parent = nullptr);
-
-		virtual void readSettings( QSettings *settings ) noexcept override;
-		virtual void writeSettings( QSettings *settings ) const noexcept override;
+		MainWindow(QSharedPointer<Settings> settings, QWidget *parent = nullptr);
+		~MainWindow();
 
 	public Q_SLOTS:
-		void removeOldFiles( const QStringList &arguments );
-		void removeOldFiles(const QFileInfoList &startDirectories );
+		void removeOldFiles();
 
 	private:
 		void showRemovingStarted();
@@ -51,4 +50,5 @@ class MainWindow : public pera_software::aidkit::qt::PERAMainWindow {
 		QSplitter *splitter_;
 		MessagesTreeWidget *messagesTreeWidget_;
 		pera_software::aidkit::qt::MessagesWidget *messagesWidget_;
+		QSharedPointer<Settings> settings_;
 };

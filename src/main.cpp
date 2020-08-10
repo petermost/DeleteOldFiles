@@ -16,24 +16,20 @@
 // along with DeleteOldFiles.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Application.hpp"
+#include "Settings.hpp"
+
+#include <QSharedPointer>
 #include <QTimer>
-#include <pera_software/aidkit/qt/core/PERAIniSettings.hpp>
 
 using namespace pera_software::aidkit;
 
-int main( int argc, char *argv[] ) {
+int main(int argc, char *argv[])
+{
+	auto settings(QSharedPointer<Settings>::create());
+	Application application(settings, &argc, argv);
+	settings->parse(application.arguments());
 
-	Application application( &argc, argv );
+	QTimer::singleShot(0, &application, &Application::removeOldFiles);
 
-	qt::PERAIniSettings settings(Application::NAME);
-
-	application.readSettings( &settings );
-
-	QTimer::singleShot( 0, &application, &Application::removeOldFiles );
-
-	auto result = application.exec();
-
-	application.writeSettings( &settings );
-
-	return result;
+	return application.exec();
 }

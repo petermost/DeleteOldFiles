@@ -23,25 +23,13 @@
 
 const QString Application::NAME(QStringLiteral("DeleteOldFiles"));
 
-Application::Application(int *argc, char *argv[] )
-	: PERAApplication(NAME, argc, argv)
+Application::Application(QSharedPointer<Settings> settings, int *argc, char *argv[] )
+	: PERAApplication(NAME, argc, argv), mainWindow_(settings)
 {
-	mainWindow_ = new MainWindow();
-	mainWindow_->show();
+	mainWindow_.show();
 }
-
-void Application::readSettings( QSettings *settings ) noexcept {
-	mainWindow_->readSettings( settings );
-}
-
-void Application::writeSettings( QSettings *settings ) const noexcept {
-	mainWindow_->writeSettings( settings );
-}
-
-
 
 void Application::removeOldFiles()
 {
-	QStringList startDirectories(arguments().mid(1));
-	mainWindow_->removeOldFiles(startDirectories);
+	mainWindow_.removeOldFiles();
 }

@@ -18,32 +18,37 @@
 #pragma once
 
 #include "FileRemover.hpp"
-#include <pera_software/aidkit/qt/core/DirectoryGuide.hpp>
 #include <functional>
+#include <QObject>
 
 class QFileInfo;
 
-class DirectoryTreeRemover : public pera_software::aidkit::qt::DirectoryVisitor {
+class DirectoryTreeRemover : public QObject {
 	Q_OBJECT
 	public:
-		DirectoryTreeRemover( const std::function< bool ( const QFileInfo & )> &removeCondition, QObject *parent = nullptr );
+		DirectoryTreeRemover(RemoveMode removeMode, std::function<bool(const QFileInfo &)> removeCondition, QObject *parent = nullptr);
 
 	Q_SIGNALS:
-		void visitingDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory );
-		void visitingFile( const QFileInfo &parentDirectory, const QFileInfo &currentFile );
-		void leavingDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory );
+		void visitingDirectory(const QFileInfo &parentDirectory, const QFileInfo &currentDirectory);
+		void visitingFile(const QFileInfo &parentDirectory, const QFileInfo &currentFile);
+		void leavingDirectory(const QFileInfo &parentDirectory, const QFileInfo &currentDirectory);
 
-		void entrySkipped( const QFileInfo &parent, const QFileInfo &entry );
-		void entryRemoved( const QFileInfo &parent, const QFileInfo &entry );
-		void removingEntryFailed( const QFileInfo &parent, const QFileInfo &entry, const QString &errorMessage );
+		void entrySkipped(const QFileInfo &parent, const QFileInfo &entry);
+		void entryRemoved(const QFileInfo &parent, const QFileInfo &entry);
+		void removingEntryFailed(const QFileInfo &parent, const QFileInfo &entry, const QString &errorMessage);
 
-	protected:
-		virtual bool visitDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory ) override;
-		virtual bool visitFile( const QFileInfo &parentDirectory, const QFileInfo &currentFile ) override;
-		virtual bool leaveDirectory( const QFileInfo &parentDirectory, const QFileInfo &currentDirectory ) override;
+	public Q_SLOTS:
+		void onDirectoryVisited(const QFileInfo &parentDirectory, const QFileInfo &currentDirectory, bool *stop);
+		void onFileVisited(const QFileInfo &parentDirectory, const QFileInfo &currentFile, bool *stop);
+		void onDirectoryLeft(const QFileInfo &parentDirectory, const QFileInfo &currentDirectory, bool *stop);
 
 	private:
-		std::function< bool ( const QFileInfo & )> removeCondition_;
 		FileRemover fileRemover_;
-
+		std::function<bool(const QFileInfo &)> removeCondition_;
 };
+
+namespace pera_software::aidkit::qt {
+	class DirectoryGuide;
+}
+
+void connectDirectoryGuideSignals(const pera_software::aidkit::qt::DirectoryGuide &guide, DirectoryTreeRemover *remover);

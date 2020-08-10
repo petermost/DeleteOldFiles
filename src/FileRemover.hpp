@@ -17,12 +17,22 @@
 
 #pragma once
 
+#include <QObject>
+
 class QString;
 class QFileInfo;
 
-class FileRemover {
-	public:
-		bool remove( const QFileInfo &fileInfo, QString *errorMessage );
+enum class RemoveMode {
+	Simulate,
+	Real
+};
 
-//		bool forceRemove(const QFileInfo &fileInfo, QString *errorMessage );
+class FileRemover : public QObject {
+	Q_OBJECT
+	public:
+		FileRemover(RemoveMode mode);
+		bool remove(const QFileInfo &fileInfo, QString *errorMessage);
+
+	private:
+		RemoveMode mode_;
 };
