@@ -7,7 +7,7 @@ set( CMAKE_AUTOMOC ON )
 set( CMAKE_AUTORCC ON )
 
 add_subdirectory(CppAidKit)
-include(CppAidKit/cmake/all_options.cmake)
+include(CppAidKit/cmake/AidKit.cmake)
 
 add_googletest_subdirectory()
 
@@ -30,8 +30,7 @@ add_executable(DeleteOldFilesTests
 set_default_target_options(DeleteOldFilesTests)
 target_link_libraries(DeleteOldFilesTests
 	DeleteOldFilesLib
-	GTest::GTest
-	GTest::Main
+	AidKitTest
 )
 
 # 'DeleteOldFiles' static lib:

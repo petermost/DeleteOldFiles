@@ -1,13 +1,20 @@
 #include "Icons.hpp"
 #include <pera_software/aidkit/qt/core/Strings.hpp>
 #include <pera_software/aidkit/compiler.hpp>
+#include <pera_software/aidkit/qt/TestFixture.hpp>
 #include <QIcon>
 #include <QFile>
 #include <gtest/gtest.h>
 
-AIDKIT_PRAGMA_GCC_WARNING_DISABLE(shadow-uncaptured-local)
+AIDKIT_GCC_DISABLE_WARNING(shadow-uncaptured-local)
+AIDKIT_GCC_DISABLE_WARNING(weak-vtables)
 
-TEST(IconsTest, testArrayOperator)
+using namespace pera_software::aidkit;
+
+class IconsTest : public qt::TestFixture {
+};
+
+TEST_F(IconsTest, testArrayOperator)
 {
 	QString iconNames[] = {
 		Icons::Success,
